@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>玩家信息</title>
+    <script src="https://kit.fontawesome.com/8b7c7c8191.js" crossorigin="anonymous"></script>
+    <style>
+        @font-face {
+            font-family: "MapleMono";
+            src: url("../public/MapleMono-SC-NF-Bold.ttf") format("truetype");
+        }
+
+        body {
+            font-family: "MapleMono", Arial, sans-serif;
+            background-color: #f0f8ff; /* 浅蓝色背景 */
+            color: #ff69b4; /* 粉色字体 */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .board {
+            display: flex;
+            flex-direction: column; /* 改为上下排列 */
+            justify-content: center; /* 垂直居中 */
+            align-items: center; /* 水平居中 */
+            padding: 20px;
+            width: 400px;
+            gap: 20px; /* 增加间距 */
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff; /* 白色背景 */
+            border: 2px solid #ffb6c1; /* 粉色边框 */
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 350px;
+        }
+
+        .info {
+            font-family: "MapleMono";
+            flex: 1;
+            text-align: left;
+        }
+
+        .info .title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            word-wrap: break-word; /* 允许长单词换行 */
+            word-break: break-word; /* 强制长单词换行 */
+            max-width: 250px; /* 限制最大宽度 */
+        }
+
+        .info .content {
+            font-size: 1.2em;
+            word-wrap: break-word; /* 允许长单词换行 */
+            word-break: break-word; /* 强制长单词换行 */
+            max-width: 250px; /* 限制最大宽度 */
+        }
+
+        .info .stats {
+            font-size: 1.3em;
+            line-height: 1.9; /* 增大行间距 */
+            display: flex;
+            justify-content: space-between; /* 左右对齐 */
+        }
+
+        .info .stats .key {
+            /* 左对齐 */
+            text-align: left;
+        }
+
+        .info .stats .value {
+            /* 右对齐 */
+            text-align: right;
+        }
+
+        .avatar {
+            margin-left: 20px;
+        }
+
+        .avatar img {
+            width: 100px;
+            height: 100px;
+            border-radius: 5%;
+            border: 2px solid #ffb6c1; /* 粉色边框 */
+        }
+    </style>
+</head>
+<body>
+<div class="board" id="user_info">
+    <div class="container">
+        <div class="info">
+            <div class="title">{{nickname}}</div>
+            <div class="content">{{status}}</div>
+        </div>
+        <div class="avatar">
+            <img src="{{avatar}}" alt="玩家头像">
+        </div>
+    </div>
+    <div class="container">
+        <div class="info">
+            <div class="stats">
+                <div class="key"><i class="fa-solid fa-clock"></i> 累计在线时间</div>
+                <div class="value">{{time}}</div>
+            </div>
+            <div class="stats">
+                <div class="key"><i class="fa-solid fa-person-hiking"></i> 走过的总路程</div>
+                <div class="value">{{walk}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
