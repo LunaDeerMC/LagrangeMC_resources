@@ -1,4 +1,4 @@
-name: Build and Package
+name: Package Libs
 
 on:
     workflow_dispatch: # 手动触发
@@ -19,23 +19,27 @@ jobs:
           chmod +x ./libs-package.sh
           ./libs-package.sh
 
-      # 压缩 templates 文件夹为 ZIP
-      - name: Zip templates folder
+      # 从 version.txt 中读取版本号
+      - name: Read version from version.txt
+        id: read_version
         run: |
-          if [ -d "templates" ]; then
-            zip -r templates.zip templates
+          if [ -f "version.txt" ]; then
+            version=$(cat version.txt)
+            echo "VERSION=${version}" >> $GITHUB_ENV
+            echo "Version read from file: $version"
           else
-            echo "templates folder does not exist."
+            echo "version.txt file does not exist."
             exit 1
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      # 根据 git hash 日期生成新的 release tag
+      # 生成新的 release tag
       - name: Generate new release tag
         id: generate_tag
         run: |
-          git_hash=$(git rev-parse --short HEAD)
-          date_time=$(date +%Y%m%d%H%M%S)
-          release_tag="resources-${git_hash}-${date_time}"
+          version=${{ env.VERSION }}
+          release_tag="libs-${version}"
           echo "RELEASE_TAG=${release_tag}" >> $GITHUB_ENV
           echo "Generated release tag: $release_tag"
         env:

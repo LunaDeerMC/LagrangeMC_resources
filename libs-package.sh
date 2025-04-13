@@ -7,12 +7,15 @@
 # https://storage.googleapis.com/chrome-for-testing-public/135.0.7049.84/{os}/chrome-{os}.zip
 # https://storage.googleapis.com/chrome-for-testing-public/135.0.7049.84/{os}/chromedriver-{os}.zip
 
-version="135.0.7049.84" # https://googlechromelabs.github.io/chrome-for-testing/#stable
+CHROME_VERSION="135.0.7049.84" # https://googlechromelabs.github.io/chrome-for-testing/#stable
+
+chmod +x ./version.sh
+bash ./version.sh # 生成 version.txt
 
 # 下载指定系统名称的资源
 download_resource() {
     local system_name=$1
-    local base_url="https://storage.googleapis.com/chrome-for-testing-public/${version}"
+    local base_url="https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}"
     local output_dir="downloads/${system_name}"
 
     # 创建输出目录
@@ -40,6 +43,7 @@ repackage_resource() {
     # Move the files to the libs directory
     mv "chrome-${system_name}" "${libs_dir}/chrome"
     mv "chromedriver-${system_name}/chromedriver" "${libs_dir}/chromedriver"
+    cp version.txt "${libs_dir}/version.txt"
 
     # Create a zip file with the libs directory
     zip -r "${zip_file}" "${libs_dir}"

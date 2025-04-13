@@ -1,0 +1,66 @@
+name: Build and Package
+
+on:
+    workflow_dispatch: # 手动触发
+
+jobs:
+  build-and-package:
+    permissions: write-all
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出代码库
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+
+      # 运行 templates-package.sh 脚本
+      - name: Run templates-package.sh
+        run: |
+          chmod +x ./templates-package.sh
+          ./templates-package.sh
+
+      # 从 version.txt 中读取版本号
+      - name: Read version from version.txt
+        id: read_version
+        run: |
+          if [ -f "version.txt" ]; then
+            version=$(cat version.txt)
+            echo "VERSION=${version}" >> $GITHUB_ENV
+            echo "Version read from file: $version"
+          else
+            echo "version.txt file does not exist."
+            exit 1
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      # 生成新的 release tag
+      - name: Generate new release tag
+        id: generate_tag
+        run: |
+          version=${{ env.VERSION }}
+          release_tag="templates-${version}"
+          echo "RELEASE_TAG=${release_tag}" >> $GITHUB_ENV
+          echo "Generated release tag: $release_tag"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 检查 ZIP 文件是否存在
+      - name: Check for ZIP files
+        run: |
+          if ls *.zip 1> /dev/null 2>&1; then
+            echo "ZIP files found."
+          else
+            echo "No ZIP files found."
+            exit 1
+          fi
+
+      # 创建新的 release
+      - name: Create new release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "${{ env.RELEASE_TAG }}"
+          prerelease: false
+          files: |
+              *.zip
