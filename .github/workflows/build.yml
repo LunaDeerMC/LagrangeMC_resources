@@ -11,7 +11,7 @@ jobs:
     steps:
       # 检出代码库
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
 
       # 安装 GitHub CLI
       - name: Install GitHub CLI
