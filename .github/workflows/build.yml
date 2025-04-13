@@ -35,13 +35,6 @@ jobs:
             exit 1
           fi
 
-      # 上传所有生成的 ZIP 文件为构建工件
-      - name: Upload ZIP files as artifacts
-        uses: actions/upload-artifact@v3
-        with:
-            name: zip-artifacts
-            path: '*.zip'
-
       # 删除旧的 release 发布
       - name: Delete old releases
         run: |
