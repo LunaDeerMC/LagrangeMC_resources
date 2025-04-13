@@ -13,12 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
 
-      # 安装 GitHub CLI
-      - name: Install GitHub CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gh
-
       # 运行 libs-package.sh 脚本
       - name: Run libs-package.sh
         run: |
@@ -34,23 +28,14 @@ jobs:
             echo "templates folder does not exist."
             exit 1
           fi
-
-      # 删除旧的 release 发布
-      - name: Delete old releases
-        run: |
-          release_ids=$(gh release list --json id -q '.[].id')
-          for id in $release_ids; do
-              gh release delete $id --yes
-          done
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      # 根据 git hash 生成新的 release tag
+      # 根据 git hash 日期生成新的 release tag
       - name: Generate new release tag
         id: generate_tag
         run: |
           git_hash=$(git rev-parse --short HEAD)
-          release_tag="resources-${git_hash}"
+          date_time=$(date +%Y%m%d%H%M%S)
+          release_tag="resources-${git_hash}-${date_time}"
           echo "RELEASE_TAG=${release_tag}" >> $GITHUB_ENV
           echo "Generated release tag: $release_tag"
         env:
