@@ -41,12 +41,15 @@ repackage_resource() {
     unzip -q "${download_dir}/chromedriver-${system_name}.zip"
 
     # Move the files to the libs directory
-    mv "chrome-${system_name}" "${libs_dir}/chrome"
-    mv "chromedriver-${system_name}/chromedriver" "${libs_dir}/chromedriver"
+    mv "chrome-${system_name}" "${libs_dir}/chrome" && chmod +x "${libs_dir}/chrome/chrome"
+    mv "chromedriver-${system_name}/chromedriver" "${libs_dir}/chromedriver" && chmod +x "${libs_dir}/chromedriver"
     cp version.txt "${libs_dir}/version.txt"
 
     # Create a zip file with the libs directory
-    zip -r "${zip_file}" "${libs_dir}"
+    pushd "${libs_dir}/.."
+    zip -r "${zip_file}" "libs"
+    popd
+    mv "${libs_dir}/../${zip_file}" .
 
     echo "Repackaged ${system_name} resources into ${zip_file}"
 }
