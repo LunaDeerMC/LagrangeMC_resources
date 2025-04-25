@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>玩家信息</title>
-    <script src="https://kit.fontawesome.com/8b7c7c8191.js" crossorigin="anonymous"></script>
+    <link href="../public/all.min.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: "MapleMono";
@@ -109,12 +109,20 @@
     <div class="container">
         <div class="info">
             <div class="stats">
-                <div class="key"><i class="fa-solid fa-clock"></i> 累计在线时间</div>
+                <div class="key"><i class="fas fa-clock"></i> 累计在线时间</div>
                 <div class="value">{{time}}</div>
             </div>
             <div class="stats">
-                <div class="key"><i class="fa-solid fa-person-hiking"></i> 走过的总路程</div>
+                <div class="key"><i class="fas fa-running"></i> 走过的总路程</div>
                 <div class="value">{{walk}}</div>
+            </div>
+            <div class="stats">
+                <div class="key"><i class="fas fa-digging"></i> 累计挖掘</div>
+                <div class="value">{{break}}</div>
+            </div>
+            <div class="stats">
+                <div class="key"><i class="fas fa-border-all"></i> 累计合成</div>
+                <div class="value">{{craft}}</div>
             </div>
         </div>
     </div>
